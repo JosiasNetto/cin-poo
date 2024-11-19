@@ -10,7 +10,7 @@ int main() {
   string word;
 
   cout << "Let's go! Press the return key: " << endl;
-  cin.get(ch);
+  cin.get();
 
   cout << "Enter a word containing three characters at most: ";
   cin >> setw(3) >> word;
