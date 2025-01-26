@@ -6,20 +6,32 @@
 using namespace std;
 
 int main(){
-    string readExp;
 
-    cout << "Please enter a expression: \n";
-    getline(cin, readExp);
-    cout << "Leu a exp \n";
+    int c;
+    cin >> c;
+    cin.ignore();
 
-    Parser test = Parser(readExp);
-    cout << "Criou o test \n";
+    for(int i = 0; i < c; i++){
+        string readExp;
 
-    test.nextToken();
-    cout << "Foi para o primeiro token \n";
+        getline(cin, readExp);
 
-    Expression* parsedExp = test.parser_exp();
-    cout << "O valor é: "<<parsedExp->eval() << endl;
+        Parser test = Parser(readExp);
+
+        test.nextToken();
+
+        Expression* parsedExp = test.parser_exp();
+        string type = parsedExp->getType();
+        int value = parsedExp->eval();
+
+        if(type == "bool"){
+            cout << (value == 1 ? "true" : "false") << endl;
+        }
+        else{
+            cout << value << endl;
+        }    
+    }
+
 
     return 0;
 }

@@ -9,10 +9,12 @@ using namespace std;
 class Expression {
     protected:
         int value;
+        string type;
     public:
+        Expression(const string& type) : type(type) {};
         virtual int eval() = 0;
         virtual ~Expression() = default;
-
+        virtual string getType() = 0;
 };
 
 class Operand {
@@ -26,10 +28,10 @@ class Operand {
 class LiteralExp : public Expression {
     private:
         int literalValue;
-        string type;
     public:
         int eval();
-        LiteralExp(int value, const string& type) : literalValue(value), type(type) {};
+        string getType();
+        LiteralExp(int value, const string& type) : literalValue(value), Expression(type) {};
 };
 
 class UnaryExp : public Expression {
@@ -38,7 +40,8 @@ class UnaryExp : public Expression {
         bool operand;
     public:
         int eval();
-        UnaryExp(bool op, Expression* exp) : operand(op), exp(exp) {};
+        string getType();
+        UnaryExp(bool op, Expression* exp, const string& type) : operand(op), exp(exp), Expression(type) {};
 };
 
 class BinaryExp : public Expression {
@@ -48,7 +51,8 @@ class BinaryExp : public Expression {
         Operand op;
     public:
         int eval();
-        BinaryExp(Expression* exp1, Operand op, Expression* exp2) : exp1(exp1), op(op), exp2(exp2) {};
+        string getType();
+        BinaryExp(Expression* exp1, Operand op, Expression* exp2, const string& type) : exp1(exp1), op(op), exp2(exp2), Expression(type) {};
 };
 
 #endif

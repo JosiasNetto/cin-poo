@@ -36,7 +36,7 @@ Expression* Parser::parser_or_exp() {
         nextToken();
         Expression* exp2;
         exp2 = parser_and_exp();
-        return new BinaryExp(exp1, op, exp2);
+        return new BinaryExp(exp1, op, exp2, "bool");
     } else {
         return exp1;
     }
@@ -51,7 +51,7 @@ Expression* Parser::parser_and_exp() {
         nextToken();
         Expression* exp2;
         exp2 = parser_eq_exp();
-        return new BinaryExp(exp1, op, exp2);
+        return new BinaryExp(exp1, op, exp2, "bool");
     } else {
         return exp1;
     }
@@ -67,7 +67,7 @@ Expression* Parser::parser_eq_exp() {
         nextToken();
         Expression* exp2;
         exp2 = parser_rel_exp();
-        return new BinaryExp(exp1, op, exp2);
+        return new BinaryExp(exp1, op, exp2, "bool");
     } else {
         return exp1;
     }
@@ -85,7 +85,7 @@ Expression* Parser::parser_rel_exp() {
         nextToken();
         Expression* exp2;
         exp2 = parser_add_exp();
-        return new BinaryExp(exp1, op, exp2);
+        return new BinaryExp(exp1, op, exp2, "bool");
     } else {
         return exp1;
     }
@@ -101,7 +101,7 @@ Expression* Parser::parser_add_exp() {
         nextToken();
         Expression* exp2;
         exp2 = parser_mul_exp();
-        return new BinaryExp(exp1, op, exp2);
+        return new BinaryExp(exp1, op, exp2, "number");
     } else {
         return exp1;
     }
@@ -117,7 +117,7 @@ Expression* Parser::parser_mul_exp() {
         nextToken();
         Expression* exp2;
         exp2 = parser_unary_exp();
-        return new BinaryExp(exp1, op, exp2);
+        return new BinaryExp(exp1, op, exp2, "number");
     } else {
         return exp1;
     }
@@ -129,7 +129,7 @@ Expression* Parser::parser_unary_exp() {
         nextToken();
         Expression* exp;
         exp = parser_unary_exp();
-        return new UnaryExp(true, exp);
+        return new UnaryExp(true, exp, "number");
     } else {
         return parser_primary_exp();
     }
@@ -158,9 +158,11 @@ Expression* Parser::parser_literal_exp() {
         nextToken();
         return new LiteralExp(false, "bool");
     }
-    else if(!this->currentToken.getValue().empty() && isdigit(this->currentToken.getValue()[0])){
+    else if(!this->currentToken.getValue().empty() && (isdigit(this->currentToken.getValue()[0]) || 
+    (this->currentToken.getValue().size() > 1 && isdigit(this->currentToken.getValue()[1])))){
+        int number = stoi(this->currentToken.getValue());
         nextToken();
-        return new LiteralExp(stoi(this->currentToken.getValue()), "number");
+        return new LiteralExp(number, "number");
     }
     else{
         return NULL;
