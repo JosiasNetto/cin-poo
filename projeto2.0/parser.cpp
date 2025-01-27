@@ -140,7 +140,7 @@ Expression* Parser::parser_primary_exp() {
         nextToken();
         Expression* exp1 = parser_exp();
         if(this->currentToken.getValue() != ")"){
-            throw runtime_error("Expected closing parenthesis");
+            throw "Expected closing parenthesis";
         }
         nextToken();
         return exp1;
@@ -165,6 +165,6 @@ Expression* Parser::parser_literal_exp() {
         return new LiteralExp(number, "number");
     }
     else{
-        return NULL;
+        throw "Invalid literal";
     }
 }

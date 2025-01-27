@@ -1,0 +1,6 @@
+Instruções para compilar e executar o código:
+
+1 - Extraia o arquivo .zip;
+2 - Acessar a diretório com os arquivos extraidos;
+3 - No terminal, digitar o seguinte comando: "g++ main.cpp parser.cpp expressions.cpp -o calc"(sem as aspas);
+4 - Executar o arquivo calc. Considerando que está no mesmo diretório que o arquivo, basta digitar ./calc no terminal.

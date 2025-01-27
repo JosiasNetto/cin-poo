@@ -12,12 +12,11 @@ int main(){
     cin.ignore();
 
     for(int i = 0; i < c; i++){
+        try{
         string readExp;
-
         getline(cin, readExp);
 
         Parser test = Parser(readExp);
-
         test.nextToken();
 
         Expression* parsedExp = test.parser_exp();
@@ -26,12 +25,13 @@ int main(){
 
         if(type == "bool"){
             cout << (value == 1 ? "true" : "false") << endl;
-        }
-        else{
+        }else{
             cout << value << endl;
-        }    
+        }
+        delete parsedExp;
+        }catch(...){
+            cout << "error" << endl;
+        }
     }
-
-
     return 0;
 }
