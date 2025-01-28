@@ -32,12 +32,19 @@ Expression* Parser::parser_or_exp() {
     exp1 = parser_and_exp();
 
     while(this->currentToken.getValue() == "||") {
+        if(exp1->getType() != "bool"){
+            throw "Invalid binary operation";
+            }
         Operand op = Operand(this->currentToken.getValue());
         nextToken();
         Expression* exp2;
         exp2 = parser_and_exp();
-        exp1 = new BinaryExp(exp1, op, exp2, "bool");
+        if(exp2->getType() != "bool"){
+            throw "Invalid binary operation";
+        }  
+        exp1 = new BinaryExp(exp1, op, exp2, "bool"); 
     }
+            
     return exp1;
     
 }
@@ -47,11 +54,17 @@ Expression* Parser::parser_and_exp() {
     exp1 = parser_eq_exp();
 
     while(this->currentToken.getValue() == "&&") {
+        if(exp1->getType() != "bool"){
+            throw "Invalid binary operation";
+            }
         Operand op = Operand(this->currentToken.getValue());
         nextToken();
         Expression* exp2;
-        exp2 = parser_eq_exp();
-        exp1 = new BinaryExp(exp1, op, exp2, "bool");
+        exp2 = parser_and_exp();
+        if(exp2->getType() != "bool"){
+            throw "Invalid binary operation";
+        }  
+        exp1 = new BinaryExp(exp1, op, exp2, "bool"); 
     }
     return exp1;
     
