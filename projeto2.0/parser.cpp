@@ -31,53 +31,53 @@ Expression* Parser::parser_or_exp() {
     Expression* exp1;
     exp1 = parser_and_exp();
 
-    if(this->currentToken.getValue() == "||") {
+    while(this->currentToken.getValue() == "||") {
         Operand op = Operand(this->currentToken.getValue());
         nextToken();
         Expression* exp2;
         exp2 = parser_and_exp();
-        return new BinaryExp(exp1, op, exp2, "bool");
-    } else {
-        return exp1;
+        exp1 = new BinaryExp(exp1, op, exp2, "bool");
     }
+    return exp1;
+    
 }
 
 Expression* Parser::parser_and_exp() { 
     Expression* exp1;
     exp1 = parser_eq_exp();
 
-    if(this->currentToken.getValue() == "&&") {
+    while(this->currentToken.getValue() == "&&") {
         Operand op = Operand(this->currentToken.getValue());
         nextToken();
         Expression* exp2;
         exp2 = parser_eq_exp();
-        return new BinaryExp(exp1, op, exp2, "bool");
-    } else {
-        return exp1;
+        exp1 = new BinaryExp(exp1, op, exp2, "bool");
     }
+    return exp1;
+    
 }
 
 Expression* Parser::parser_eq_exp() { 
     Expression* exp1;
     exp1 = parser_rel_exp();
 
-    if(this->currentToken.getValue() == "==" || 
+    while(this->currentToken.getValue() == "==" || 
     this->currentToken.getValue() == "!=") {
         Operand op = Operand(this->currentToken.getValue());
         nextToken();
         Expression* exp2;
         exp2 = parser_rel_exp();
-        return new BinaryExp(exp1, op, exp2, "bool");
-    } else {
-        return exp1;
+        exp1 = new BinaryExp(exp1, op, exp2, "bool");
     }
+    return exp1;
+    
 }
 
 Expression* Parser::parser_rel_exp() { 
     Expression* exp1;
     exp1 = parser_add_exp();
 
-    if(this->currentToken.getValue() == "<" || 
+    while (this->currentToken.getValue() == "<" || 
     this->currentToken.getValue() == ">" ||
     this->currentToken.getValue() == "<=" ||
     this->currentToken.getValue() == ">=") {
@@ -85,42 +85,42 @@ Expression* Parser::parser_rel_exp() {
         nextToken();
         Expression* exp2;
         exp2 = parser_add_exp();
-        return new BinaryExp(exp1, op, exp2, "bool");
-    } else {
-        return exp1;
+        exp1 = new BinaryExp(exp1, op, exp2, "bool");
     }
+    return exp1;
+    
 }
 
 Expression* Parser::parser_add_exp() { 
     Expression* exp1;
     exp1 = parser_mul_exp();
 
-    if(this->currentToken.getValue() == "+" || 
+    while (this->currentToken.getValue() == "+" || 
     this->currentToken.getValue() == "-") {
         Operand op = Operand(this->currentToken.getValue());
         nextToken();
         Expression* exp2;
         exp2 = parser_mul_exp();
-        return new BinaryExp(exp1, op, exp2, "number");
-    } else {
-        return exp1;
+        exp1 = new BinaryExp(exp1, op, exp2, "number");
     }
+    
+    return exp1;
+    
 }
 
 Expression* Parser::parser_mul_exp() { 
     Expression* exp1;
     exp1 = parser_unary_exp();
 
-    if(this->currentToken.getValue() == "*" || 
+    while(this->currentToken.getValue() == "*" || 
     this->currentToken.getValue() == "/") {
         Operand op = Operand(this->currentToken.getValue());
         nextToken();
         Expression* exp2;
         exp2 = parser_unary_exp();
-        return new BinaryExp(exp1, op, exp2, "number");
-    } else {
-        return exp1;
-    }
+        exp1 = new BinaryExp(exp1, op, exp2, "number");
+    } 
+    return exp1;
 }
 
 Expression* Parser::parser_unary_exp() { 

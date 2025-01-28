@@ -29,7 +29,7 @@ int BinaryExp::eval() {
     if(strOp == "+" && (type1 == "number" && type2 == "number")){return this->exp1->eval() + this->exp2->eval();}
     if(strOp == "-" && (type1 == "number" && type2 == "number")){return this->exp1->eval() - this->exp2->eval();}
     if(strOp == "*" && (type1 == "number" && type2 == "number")){return this->exp1->eval() * this->exp2->eval();}
-    if(strOp == "/" && (type1 == "number" && type2 == "number")){if(this->exp2->eval() != 0){this->exp1->eval() / this->exp2->eval();} throw "divide 0"; }
+    if(strOp == "/" && (type1 == "number" && type2 == "number")){if(this->exp2->eval() != 0){return this->exp1->eval() / this->exp2->eval();} throw "divide 0"; }
     if(strOp == "||" && (type1 == "bool" && type2 == "bool")){return this->exp1->eval() || this->exp2->eval();}
     if(strOp == "&&" && (type1 == "bool" && type2 == "bool")){return this->exp1->eval() && this->exp2->eval();}
     if(strOp == "<" && (type1 == "number" && type2 == "number")){return this->exp1->eval() < this->exp2->eval();}
