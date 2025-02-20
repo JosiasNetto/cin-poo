@@ -41,8 +41,8 @@ class Queue {
         }
 
         string dequeue() {
-            if (this->size == 0 || this->front->next == nullptr) {
-            throw "error"; 
+            if (this->size == 0 || this->front->next == NULL) {
+            return ""; 
             }
             Node* temp = this->front->next;
             string it = temp->name;
