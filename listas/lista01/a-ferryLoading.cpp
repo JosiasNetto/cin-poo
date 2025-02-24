@@ -32,6 +32,12 @@ class QueueLinkedList {
             this->size--;
             return it;
         }
+        int getSize(){
+            return size;
+        }
+        int getIt(){
+            return front->next->element;
+        }
 };
 
 int main(){
@@ -44,17 +50,45 @@ int main(){
         cin >> l;
         cin >> m;
 
+        bool leftBool = true;
+
         QueueLinkedList left = QueueLinkedList();
         QueueLinkedList right = QueueLinkedList();
+
         for(int j = 0; j < m; j++){
             int size; 
             string side;
             cin >> size;
             cin >> side;
 
-            double convSize = size/100;
-            if(actLength - convSize >= 0){
-                
+            if(side == "left"){
+                left.enqueue(size);
+            }else if(side == "right"){
+                right.enqueue(size);
+            }
+        }
+
+        while(right.getSize() > 0 || left.getSize() > 0){
+            int auxSize = l;
+            bool auxLimit = false;
+            if(leftBool){
+                while(!auxLimit){
+                    if(left.getIt() > auxSize){
+                        auxLimit = true;
+                    }else{
+                        auxSize = auxSize - left.getIt();
+                        left.dequeue();
+                    }
+                }
+            }else{
+                while(!auxLimit){
+                    if(right.getIt() > auxSize){
+                        auxLimit = true;
+                    }else{
+                        auxSize = auxSize - right.getIt();
+                        right.dequeue();
+                    }
+                }
             }
         }
    }
