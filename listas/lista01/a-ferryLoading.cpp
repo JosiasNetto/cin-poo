@@ -27,10 +27,15 @@ class QueueLinkedList {
         }
         int dequeue(){
             if(this->size == 0){ return -1;}
-            Node it = this->front->next;
-            this->front = this->front->next->next;
+            Node *it = this->front->next;
+            int elem = it->element;
+            this->front->next = this->front->next->next;
+            if (this->rear == it) {
+                this->rear = this->front;
+            }
+            delete it;
             this->size--;
-            return it.element;
+            return elem;
         }
         int getSize(){
             return this->size;
@@ -39,7 +44,7 @@ class QueueLinkedList {
             if(this->size > 0){
                 return this->front->next->element;
             }else{
-                return 999999;
+                return -1;
             }
         }
 };
@@ -53,9 +58,7 @@ int main(){
         int cnt = 0;
         int l, m;
         cin >> l;
-        cin.ignore();
         cin >> m;
-        cin.ignore();
 
         int actLength = l * 100;
         bool leftBool = true;
@@ -67,9 +70,8 @@ int main(){
             int size; 
             string side;
             cin >> size;
-            cin.ignore();
             cin >> side;
-            cin.ignore();
+
 
             if(side == "left"){
                 left.enqueue(size);
@@ -80,30 +82,21 @@ int main(){
 
         while(right.getSize() > 0 || left.getSize() > 0){
             int auxSize = l * 100;
-            bool auxLimit = false;
             if(leftBool){
-                while(!auxLimit){
-                    if(left.getIt() > auxSize || left.getSize() == 0){
-                        auxLimit = true;
-                    }else{
-                        auxSize = auxSize - left.getIt();
+                while(left.getIt() <= auxSize && left.getSize() > 0){
+                        auxSize -= left.getIt();
                         left.dequeue();
-                        cnt++;
                     }
-                }
             }else{
-                while(!auxLimit){
-                    if(right.getIt() > auxSize || right.getSize() == 0){
-                        auxLimit = true;
-                    }else{
-                        auxSize = auxSize - right.getIt();
+                while(right.getIt() <= auxSize && right.getSize() > 0){
+                        auxSize -= right.getIt();
                         right.dequeue();
-                        cnt++;
+                        }
                     }
+                    cnt++;
+                    leftBool = !leftBool;
                 }
-            }
-        }
-        cout << cnt;
+        cout << cnt<< endl;
    }
    return 0;
 }
